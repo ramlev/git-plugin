@@ -1,6 +1,8 @@
 function __git.current_branch -d "Show current git branch name"
-  begin
-    git symbolic-ref HEAD; or \
-    git rev-parse --short HEAD; or return
-  end 2>/dev/null | sed -e 's|^refs/heads/||'
+  set -l ref (git symbolic-ref --quiet --short HEAD 2>/dev/null)
+  and echo $ref
+  or begin
+    # detached HEAD → fall back to short SHA
+    git rev-parse --short HEAD 2>/dev/null; or return
+  end
 end

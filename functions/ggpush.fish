@@ -1,3 +1,4 @@
 function ggpush -d "Push current branch to origin"
-  git push origin (__git.current_branch);
+  set -l branch (__git.current_branch); or return
+  git push origin $branch $argv
 end
